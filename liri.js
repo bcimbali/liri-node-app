@@ -1,15 +1,19 @@
 require("dotenv").config();
 
+// Dependencies /////////////////////////////////////////////
 var keys = require("./keys.js");
+var OmdbApi = require('omdb-api-pt')
 var Twitter = require('twitter');
 var Spotify = require('node-spotify-api');
+var request = require("request");
 
+// Store a new Spotify object in a variable called spotify
 var spotify = new Spotify({
     id: keys.spotify.id,
     secret: keys.spotify.secret
   });
 
- 
+
 // Store a new Twitter object in a variable called client
 var client = new Twitter({
     consumer_key: keys.twitter.consumer_key,
@@ -17,9 +21,14 @@ var client = new Twitter({
     access_token_key: keys.twitter.access_token_key,
     access_token_secret: keys.twitter.access_token_secret
   });
- 
+
 // Store Twitter user name in params variable  
 var params = {screen_name: 'boat_test_bot'};
+
+// Create a new instance of the OMDB module.
+var omdb = new OmdbApi({
+    apiKey: 'cb006341'
+  });
 
 // Get task for LIRI to do
 var task = process.argv[2];
@@ -62,6 +71,24 @@ if (task === 'spotify-this-song') {
             return console.log('Error occurred: ' + err);
         }   
         displayMatchingSongs(data.tracks);
+    });
+}
+
+if (task === 'movie-this') {
+    var queryUrl = "http://www.omdbapi.com/?t=" + modifier + "&y=&plot=short&apikey=trilogy";
+    request(queryUrl, function(error, response, body) {
+        // If the request is successful (i.e. if the response status code is 200)
+        if (!error && response.statusCode === 200) {
+
+        console.log('Title: ' + JSON.parse(body).Title);
+        console.log('Year: ' + JSON.parse(body).Year);
+        console.log("Rating: " + JSON.parse(body).imdbRating);
+        console.log("Rotten Tomatoes Rating: " + JSON.parse(body).Ratings[1].Value);
+        console.log('Country: ' + JSON.parse(body).Country);
+        console.log('Language: ' + JSON.parse(body).Language);
+        console.log('Plot: ' + JSON.parse(body).Plot);
+        console.log('Actors: ' + JSON.parse(body).Actors);
+        }
     });
 }
 
