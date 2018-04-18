@@ -74,20 +74,44 @@ if (task === 'spotify-this-song') {
     });
 }
 
-if (task === 'movie-this') {
+if (task === 'movie-this' && modifier != '' ) {
     var queryUrl = "http://www.omdbapi.com/?t=" + modifier + "&y=&plot=short&apikey=trilogy";
     request(queryUrl, function(error, response, body) {
         // If the request is successful (i.e. if the response status code is 200)
         if (!error && response.statusCode === 200) {
 
-        console.log('Title: ' + JSON.parse(body).Title);
-        console.log('Year: ' + JSON.parse(body).Year);
-        console.log("Rating: " + JSON.parse(body).imdbRating);
-        console.log("Rotten Tomatoes Rating: " + JSON.parse(body).Ratings[1].Value);
-        console.log('Country: ' + JSON.parse(body).Country);
-        console.log('Language: ' + JSON.parse(body).Language);
-        console.log('Plot: ' + JSON.parse(body).Plot);
-        console.log('Actors: ' + JSON.parse(body).Actors);
+            // console.log('Status Code: ' + response.statusCode);
+            // console.log('modifier: ' + modifier);
+            console.log('Title: ' + JSON.parse(body).Title);
+            console.log('Year: ' + JSON.parse(body).Year);
+            console.log("Rating: " + JSON.parse(body).imdbRating);
+            console.log("Rotten Tomatoes Rating: " + JSON.parse(body).Ratings[1].Value);
+            console.log('Country: ' + JSON.parse(body).Country);
+            console.log('Language: ' + JSON.parse(body).Language);
+            console.log('Plot: ' + JSON.parse(body).Plot);
+            console.log('Actors: ' + JSON.parse(body).Actors);
+
+        }
+    });
+}
+// If movie-this is entered and no movie is given, it gives back the info for 'Mr. Nobody'
+if (task === 'movie-this' && modifier === '' ) {
+    var queryUrl = "http://www.omdbapi.com/?t=mr.nobody&y=&plot=short&apikey=trilogy";
+    request(queryUrl, function(error, response, body) {
+        // If the request is successful (i.e. if the response status code is 200)
+        if (!error && response.statusCode === 200) {
+
+            // console.log('Status Code: ' + response.statusCode);
+            // console.log('modifier: ' + modifier);
+            console.log('Title: ' + JSON.parse(body).Title);
+            console.log('Year: ' + JSON.parse(body).Year);
+            console.log("Rating: " + JSON.parse(body).imdbRating);
+            console.log("Rotten Tomatoes Rating: " + JSON.parse(body).Ratings[1].Value);
+            console.log('Country: ' + JSON.parse(body).Country);
+            console.log('Language: ' + JSON.parse(body).Language);
+            console.log('Plot: ' + JSON.parse(body).Plot);
+            console.log('Actors: ' + JSON.parse(body).Actors);
+
         }
     });
 }
