@@ -1,6 +1,7 @@
 require("dotenv").config();
 
 // Dependencies /////////////////////////////////////////////
+var fs = require("fs");
 var keys = require("./keys.js");
 var OmdbApi = require('omdb-api-pt')
 var Twitter = require('twitter');
@@ -123,6 +124,86 @@ if (task === 'movie-this' && modifier === '' ) {
             console.log('Actors: ' + JSON.parse(body).Actors);
 
         }
+    });
+}
+
+if (task === 'do-what-it-says') {
+    console.log('you want it to do what it sayz');
+    fs.readFile("random.txt", "utf8", function(error, data) {
+
+    // If the code experiences any errors it will log the error to the console.
+    if (error) {
+        return console.log(error);
+    }
+    
+    // We will then print the contents of data
+    // console.log(data);
+    
+    // Then split it by commas (to make it more readable)
+    var dataArr = data.split(",");
+
+    var readTask = dataArr[0];
+    var readModifier = dataArr[1];
+
+    if (readTask === 'my-tweets') {
+        client.get('statuses/user_timeline', params, function(error, tweets, response) {
+            if (!error) {
+                displayTweets(tweets);
+            }
+        });
+    }
+
+    if (readTask === 'spotify-this-song' && readModifier != '' ) { 
+        spotify.search({ type: 'track', query: readModifier }, function(err, data) {
+            if (err) {
+                return console.log('Error occurred: ' + err);
+            }   
+            displayMatchingSongs(data.tracks);
+        });
+    }
+
+    if (readTask === 'movie-this' && readModifier != '' ) {
+        var queryUrl = "http://www.omdbapi.com/?t=" + readModifier + "&y=&plot=short&apikey=trilogy";
+        request(queryUrl, function(error, response, body) {
+            // If the request is successful (i.e. if the response status code is 200)
+            if (!error && response.statusCode === 200) {
+    
+                // console.log('Status Code: ' + response.statusCode);
+                // console.log('modifier: ' + modifier);
+                console.log('Title: ' + JSON.parse(body).Title);
+                console.log('Year: ' + JSON.parse(body).Year);
+                console.log("Rating: " + JSON.parse(body).imdbRating);
+                console.log("Rotten Tomatoes Rating: " + JSON.parse(body).Ratings[1].Value);
+                console.log('Country: ' + JSON.parse(body).Country);
+                console.log('Language: ' + JSON.parse(body).Language);
+                console.log('Plot: ' + JSON.parse(body).Plot);
+                console.log('Actors: ' + JSON.parse(body).Actors);
+    
+            }
+        });
+    }
+
+    if (readTask === 'movie-this' && readModifier === '' ) {
+        var queryUrl = "http://www.omdbapi.com/?t=mr.nobody&y=&plot=short&apikey=trilogy";
+        request(queryUrl, function(error, response, body) {
+            // If the request is successful (i.e. if the response status code is 200)
+            if (!error && response.statusCode === 200) {
+    
+                // console.log('Status Code: ' + response.statusCode);
+                // console.log('modifier: ' + modifier);
+                console.log('Title: ' + JSON.parse(body).Title);
+                console.log('Year: ' + JSON.parse(body).Year);
+                console.log("Rating: " + JSON.parse(body).imdbRating);
+                console.log("Rotten Tomatoes Rating: " + JSON.parse(body).Ratings[1].Value);
+                console.log('Country: ' + JSON.parse(body).Country);
+                console.log('Language: ' + JSON.parse(body).Language);
+                console.log('Plot: ' + JSON.parse(body).Plot);
+                console.log('Actors: ' + JSON.parse(body).Actors);
+    
+            }
+        });
+    }
+    
     });
 }
 
