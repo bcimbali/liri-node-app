@@ -47,7 +47,7 @@ function displayTweets(listOfTweets) {
 
 function displayMatchingSongs(listOfSongs) {
     for (i = 0; i < listOfSongs.items.length; i++) {
-        console.log('--------------------------------------------------------');    
+        console.log('-------------------------------------------------------------------------------');    
         console.log('Artist(s): ' + listOfSongs.items[i].album.artists[0].name); 
         console.log('Album Name: ' + listOfSongs.items[i].album.name); 
         console.log('Album Link: ' + listOfSongs.items[i].album.external_urls.spotify); 
@@ -65,8 +65,18 @@ if (task === 'my-tweets') {
     });
 }
 
-if (task === 'spotify-this-song') {
+if (task === 'spotify-this-song' && modifier != '' ) {
     spotify.search({ type: 'track', query: modifier }, function(err, data) {
+        if (err) {
+            return console.log('Error occurred: ' + err);
+        }   
+        displayMatchingSongs(data.tracks);
+    });
+}
+
+// If Spotify is called and no song is specified, The Sign by Ace of Bass is returned.
+if (task === 'spotify-this-song' && modifier === '' ) {
+    spotify.search({ type: 'track', query: 'the sign ace of base' }, function(err, data) {
         if (err) {
             return console.log('Error occurred: ' + err);
         }   
