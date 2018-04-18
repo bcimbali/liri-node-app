@@ -36,6 +36,23 @@ var task = process.argv[2];
 // Get either song name for Spotify or modifier for other tasks
 var modifier = process.argv.slice(3).join(' ');
 
+function addToLog(data) {
+    var dataStr = JSON.stringify(data, null, 2);
+    fs.appendFile('log.txt', dataStr, function(err) {
+
+    // If an error was experienced we say it.
+    if (err) {
+        console.log(err);
+    }
+    
+    // If no error is experienced, we'll log the phrase "Content Added" to our node console.
+    else {
+        console.log("********  Content Added to our Logfile!  ********");
+    }
+    
+    });
+}
+
 // Create a function to display last 20 tweets
 function displayTweets(listOfTweets) {
     for (i = 0; i < 20; i++) {
@@ -62,6 +79,7 @@ if (task === 'my-tweets') {
     client.get('statuses/user_timeline', params, function(error, tweets, response) {
         if (!error) {
             displayTweets(tweets);
+            addToLog(tweets);
         }
     });
 }
@@ -72,6 +90,7 @@ if (task === 'spotify-this-song' && modifier != '' ) {
             return console.log('Error occurred: ' + err);
         }   
         displayMatchingSongs(data.tracks);
+        addToLog(data.tracks);
     });
 }
 
@@ -82,6 +101,7 @@ if (task === 'spotify-this-song' && modifier === '' ) {
             return console.log('Error occurred: ' + err);
         }   
         displayMatchingSongs(data.tracks);
+        addToLog(data.tracks);
     });
 }
 
@@ -101,6 +121,7 @@ if (task === 'movie-this' && modifier != '' ) {
             console.log('Language: ' + JSON.parse(body).Language);
             console.log('Plot: ' + JSON.parse(body).Plot);
             console.log('Actors: ' + JSON.parse(body).Actors);
+            addToLog(body);
 
         }
     });
@@ -122,13 +143,14 @@ if (task === 'movie-this' && modifier === '' ) {
             console.log('Language: ' + JSON.parse(body).Language);
             console.log('Plot: ' + JSON.parse(body).Plot);
             console.log('Actors: ' + JSON.parse(body).Actors);
+            addToLog(body);
 
         }
     });
 }
 
 if (task === 'do-what-it-says') {
-    console.log('you want it to do what it sayz');
+
     fs.readFile("random.txt", "utf8", function(error, data) {
 
     // If the code experiences any errors it will log the error to the console.
@@ -149,6 +171,7 @@ if (task === 'do-what-it-says') {
         client.get('statuses/user_timeline', params, function(error, tweets, response) {
             if (!error) {
                 displayTweets(tweets);
+                addToLog(tweets);
             }
         });
     }
@@ -159,6 +182,7 @@ if (task === 'do-what-it-says') {
                 return console.log('Error occurred: ' + err);
             }   
             displayMatchingSongs(data.tracks);
+            addToLog(data.tracks);
         });
     }
 
@@ -178,7 +202,7 @@ if (task === 'do-what-it-says') {
                 console.log('Language: ' + JSON.parse(body).Language);
                 console.log('Plot: ' + JSON.parse(body).Plot);
                 console.log('Actors: ' + JSON.parse(body).Actors);
-    
+                addToLog(body);
             }
         });
     }
@@ -199,7 +223,7 @@ if (task === 'do-what-it-says') {
                 console.log('Language: ' + JSON.parse(body).Language);
                 console.log('Plot: ' + JSON.parse(body).Plot);
                 console.log('Actors: ' + JSON.parse(body).Actors);
-    
+                addToLog(body);
             }
         });
     }
