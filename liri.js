@@ -12,7 +12,7 @@ var request = require("request");
 var spotify = new Spotify({
     id: keys.spotify.id,
     secret: keys.spotify.secret
-  });
+});
 
 
 // Store a new Twitter object in a variable called client
@@ -21,7 +21,7 @@ var client = new Twitter({
     consumer_secret: keys.twitter.consumer_secret,
     access_token_key: keys.twitter.access_token_key,
     access_token_secret: keys.twitter.access_token_secret
-  });
+});
 
 // Store Twitter user name in params variable  
 var params = {screen_name: 'boat_test_bot'};
@@ -29,7 +29,7 @@ var params = {screen_name: 'boat_test_bot'};
 // Create a new instance of the OMDB module.
 var omdb = new OmdbApi({
     apiKey: 'cb006341'
-  });
+});
 
 // Get task for LIRI to do
 var task = process.argv[2];
