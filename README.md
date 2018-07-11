@@ -1,8 +1,8 @@
 # L I R I
-If you don't want to download it, see all of the features in action here:
-![tester](./assets/term.svg)
+See it in action below:
+![Animated gif of LIRI app](./assets/term.svg)
 #
-LIRI stands for "Language Interpretation and Recognition Interface."  It is a command line node app that takes in parameters and gives you back data.
+LIRI stands for "Language Interpretation and Recognition Interface."  It is a command line node app that takes in specific commands and retrieves information (like tweets or song info from Spotify). See below:
 
 ## What can LIRI do?
 
@@ -11,14 +11,14 @@ LIRI stands for "Language Interpretation and Recognition Interface."  It is a co
 - Get information about a specific movie
 - Receive tasks from a text file and perform them
 
-## Getting Started
+## How to Install and Run the App:
 - Clone the repo 
+- `cd` into the repo on your machine
 - Run `npm install` to get dependencies
 - Run any of the commands below
 
 ## LIRI Commands
-All of these commands will be written as CLI arguments after
-`node liri.js`
+All of these commands will be written as CLI arguments after `node liri.js` ( for complete example, something like: `node liri.js movie-this goldeneye` ).
 
 1. `my-tweets`
     - Displays your last 20 tweets
